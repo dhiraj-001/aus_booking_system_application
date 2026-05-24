@@ -9,29 +9,34 @@ export default function GuidelinesScreen() {
 
   const rules = [
     {
+      icon: "wallet",
+      title: "Pre-Booking Fees",
+      desc: "A 40% pre-booking fee is required to confirm all guest house reservations. The remaining balance must be paid upon check-in or checkout as per administration policy."
+    },
+    {
       icon: "document-text",
       title: "Prior Approval",
-      desc: "Approval from the Head of Department (HOD) is mandatory for all university-affiliated bookings. You must upload the signed document during the application."
-    },
-    {
-      icon: "alert-circle",
-      title: "Property Damage",
-      desc: "Any physical damage to the property or its amenities during the allocation period will be heavily fined."
-    },
-    {
-      icon: "time",
-      title: "Timings",
-      desc: "Standard check-in time is 12:00 PM and check-out is 11:00 AM unless specified otherwise by the administration."
-    },
-    {
-      icon: "close-circle",
-      title: "Cancellations",
-      desc: "Cancellations must be requested at least 48 hours prior to the scheduled booking date to avoid penalty."
+      desc: "Approval from the Head of Department (HOD) is strictly mandatory for all university-affiliated bookings. Please ensure the HOD forward letter is uploaded during the application."
     },
     {
       icon: "id-card",
-      title: "Documentation",
-      desc: "A valid University ID or Government ID must be presented physically at the time of key handover."
+      title: "Identity & Documentation",
+      desc: "A valid University ID or Government-issued ID must be presented physically at the time of key handover. Foreign nationals must present a valid passport."
+    },
+    {
+      icon: "time",
+      title: "Standard Timings",
+      desc: "Standard check-in time is 12:00 PM and check-out is 11:00 AM. Early check-ins or late check-outs are subject to availability and may incur additional charges."
+    },
+    {
+      icon: "close-circle",
+      title: "Cancellations & Refunds",
+      desc: "Cancellations must be requested at least 48 hours prior to the scheduled booking date to be eligible for a partial refund. Late cancellations will result in forfeiture of the fee."
+    },
+    {
+      icon: "alert-circle",
+      title: "Property Damage & Conduct",
+      desc: "Guests are expected to maintain decorum. Any physical damage to the property or its amenities during the allocation period will be heavily fined and billed directly to the applicant."
     }
   ];
 

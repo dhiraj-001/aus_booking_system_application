@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator, Platform, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIndicator, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAlert } from '@/hooks/AlertContext';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL || (Platform.OS === 'android' ? 'http://10.0.2.2:3000' : 'http://localhost:3000');
 
@@ -22,6 +23,7 @@ interface Resource {
 export default function ResourceDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
+  const { showAlert } = useAlert();
   
   const [resource, setResource] = useState<Resource | null>(null);
   const [loading, setLoading] = useState(true);
@@ -60,7 +62,7 @@ export default function ResourceDetailScreen() {
   const handleBookNow = () => {
     if (!resource || resource.status !== 'active') return;
     // Note: To be implemented when booking flow is created
-    Alert.alert("Booking Started", `Navigating to booking for ${resource.name}...`);
+    showAlert("Booking Started", `Navigating to booking for ${resource.name}...`);
     // router.push(`/booking?tab=${resource.category}`);
   };
 

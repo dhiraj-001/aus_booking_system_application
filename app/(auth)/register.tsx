@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/hooks/AuthContext'; // Added to ensure user is logged in
+import { useAlert } from '@/hooks/AlertContext';
 
 let GoogleSignin: any = null;
 try {
@@ -28,6 +29,7 @@ const DEPARTMENTS = [
 export default function RegisterScreen() {
   const router = useRouter();
   const { setUser } = useAuth(); // Destructure setUser to log the user in after google register
+  const { showAlert } = useAlert();
 
   const [step, setStep] = useState<'form' | 'otp'>('form');
   const [loading, setLoading] = useState(false);
@@ -99,9 +101,9 @@ export default function RegisterScreen() {
       if (response.ok) {
         setStep("otp");
         if (data.emailSent === false) {
-          Alert.alert("Notice", "Account created successfully, but OTP email could not be sent. Please tap Resend OTP on the next screen.");
+          showAlert("Notice", "Account created successfully, but OTP email could not be sent. Please tap Resend OTP on the next screen.");
         } else {
-          Alert.alert("Success", "Account created successfully. Please check your email for the OTP.");
+          showAlert("Success", "Account created successfully. Please check your email for the OTP.");
         }
       } else {
         setError(data.message || "Registration failed");
@@ -132,7 +134,7 @@ export default function RegisterScreen() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        Alert.alert("Success", "Account verified successfully! You can now login.");
+        showAlert("Success", "Account verified successfully! You can now login.");
         router.replace('/(auth)/login');
       } else {
         setError(data.message || "Invalid OTP");
@@ -158,7 +160,7 @@ export default function RegisterScreen() {
       const data = await response.json();
 
       if (response.ok) {
-        Alert.alert("Success", "OTP sent again. Please check your email.");
+        showAlert("Success", "OTP sent again. Please check your email.");
       } else {
         setError(data.message || "Failed to resend OTP");
       }
@@ -186,7 +188,7 @@ export default function RegisterScreen() {
         const data = await response.json();
 
         if (response.ok && data.success) {
-          Alert.alert("Success", "Registered with Google successfully!");
+          showAlert("Success", "Registered with Google successfully!");
           setUser(data.user);
           router.replace('/(tabs)');
         } else {

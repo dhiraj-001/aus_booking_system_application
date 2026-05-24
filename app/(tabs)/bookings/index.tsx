@@ -1,19 +1,23 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { 
   View, Text, StyleSheet, ScrollView, TouchableOpacity, 
-  ActivityIndicator, Alert, Modal, Platform, RefreshControl 
+  ActivityIndicator, Modal, Platform, RefreshControl 
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/hooks/AuthContext';
+import { useAlert } from '@/hooks/AlertContext';
 import { StatusBadge } from '@/components/StatusBadge';
+import * as Print from 'expo-print';
+import { generateSlipHtml } from '@/utils/slipGenerator';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL || (Platform.OS === 'android' ? 'http://10.0.2.2:3000' : 'http://localhost:3000');
 
 export default function BookingsScreen() {
   const router = useRouter();
   const { user } = useAuth();
+  const { showAlert } = useAlert();
   const [bookings, setBookings] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -64,7 +68,7 @@ export default function BookingsScreen() {
   }, [bookings, statusFilter]);
 
   const handleDeleteDraft = async (id: string) => {
-    Alert.alert(
+    showAlert(
       "Discard Application?",
       "Are you sure you want to delete this draft? All entered data will be lost.",
       [
@@ -80,10 +84,10 @@ export default function BookingsScreen() {
               if (response.ok) {
                 fetchBookings();
               } else {
-                Alert.alert("Error", "Failed to delete draft.");
+                showAlert("Error", "Failed to delete draft.");
               }
             } catch (error) {
-              Alert.alert("Error", "Network error while deleting draft.");
+              showAlert("Error", "Network error while deleting draft.");
             }
           }
         }
@@ -96,14 +100,27 @@ export default function BookingsScreen() {
   };
 
   const handlePayment = (booking: any, type: string) => {
-    Alert.alert(
+    showAlert(
       "Payment Required",
       "Native mobile payment using Razorpay is not supported in Expo Go. Please complete this payment on the web version."
     );
   };
 
-  const handleSlip = () => {
-    Alert.alert("Allotment Slip", "Downloading the Allotment Slip is currently only supported on the web version.");
+  const handleSlip = async (booking: any) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}/api/bookings/allocation/${booking._id}`);
+      if (!response.ok) throw new Error("Failed to fetch allocations");
+      const aData = await response.json();
+      const allocations = Array.isArray(aData) ? aData : [aData];
+      
+      const html = generateSlipHtml(booking, allocations, user);
+      await Print.printAsync({ html });
+    } catch (err) {
+      showAlert("Error", "Could not generate allotment slip.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const openGuestDetails = (booking: any) => {
@@ -147,13 +164,14 @@ export default function BookingsScreen() {
           <FilterChip label="Awaiting Admin" value="pending_admin" />
           <FilterChip label="Approved" value="approved" />
           <FilterChip label="Checked In" value="checked_in" />
+          <FilterChip label="Checked Out" value="checked_out" />
         </ScrollView>
       </View>
 
       {isLoading ? (
         <View style={styles.centerContainer}>
           <ActivityIndicator size="large" color="#4F46E5" />
-          <Text style={styles.loadingText}>Synchronizing Records...</Text>
+          <Text style={styles.loadingText}>Synchronizing Applications...</Text>
         </View>
       ) : filteredBookings.length === 0 ? (
         <View style={styles.centerContainer}>
@@ -172,7 +190,12 @@ export default function BookingsScreen() {
             const isHall = b.booking_type === 'hall';
 
             return (
-              <View key={b._id} style={[styles.card, b.status === 'draft' && styles.cardDraft]}>
+              <TouchableOpacity 
+                key={b._id} 
+                style={[styles.card, b.status === 'draft' && styles.cardDraft]}
+                onPress={() => router.push(`/bookings/${b._id}`)}
+                activeOpacity={0.8}
+              >
                 
                 {/* Top Section */}
                 <View style={styles.cardHeader}>
@@ -250,7 +273,7 @@ export default function BookingsScreen() {
                     </TouchableOpacity>
                   ) : b.status === "awaiting_checkin_payment" && isBookingFeePaid && !isCheckInFeePaid ? (
                     <>
-                      <TouchableOpacity style={styles.btnOutline} onPress={handleSlip}>
+                      <TouchableOpacity style={styles.btnOutline} onPress={() => handleSlip(b)}>
                         <Ionicons name="download-outline" size={14} color="#2563EB" />
                         <Text style={styles.btnTextBlue}>Slip</Text>
                       </TouchableOpacity>
@@ -259,14 +282,14 @@ export default function BookingsScreen() {
                       </TouchableOpacity>
                     </>
                   ) : b.status === "checked_in" || b.status === "checked_out" || (b.status === 'approved' && isHall) || b.status === "checkin_payment_done" ? (
-                    <TouchableOpacity style={styles.btnOutline} onPress={handleSlip}>
+                    <TouchableOpacity style={styles.btnOutline} onPress={() => handleSlip(b)}>
                       <Ionicons name="download-outline" size={14} color="#2563EB" />
                       <Text style={styles.btnTextBlue}>Print Allotment Slip</Text>
                     </TouchableOpacity>
                   ) : null}
                 </View>
 
-              </View>
+              </TouchableOpacity>
             );
           })}
         </ScrollView>

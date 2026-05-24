@@ -7,6 +7,7 @@ import { ActivityIndicator, View } from 'react-native';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AuthProvider, useAuth } from '@/hooks/AuthContext';
+import { AlertProvider } from '@/hooks/AlertContext';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -55,7 +56,9 @@ function RootLayoutNav() {
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <RootLayoutNav />
+      <AlertProvider>
+        <RootLayoutNav />
+      </AlertProvider>
     </AuthProvider>
   );
 }

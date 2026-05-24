@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/hooks/AuthContext';
+import { useAlert } from '@/hooks/AlertContext';
 
 let GoogleSignin: any = null;
 try {
@@ -21,6 +22,7 @@ const BASE_URL = process.env.EXPO_PUBLIC_API_URL || (Platform.OS === 'android' ?
 export default function LoginScreen() {
   const router = useRouter();
   const { setUser } = useAuth();
+  const { showAlert } = useAlert();
 
   const [step, setStep] = useState<'login' | 'otp'>('login');
   const [loading, setLoading] = useState(false);
@@ -126,7 +128,7 @@ export default function LoginScreen() {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        Alert.alert("Success", "Account verified successfully!");
+        showAlert("Success", "Account verified successfully!");
         setUser(data.user);
         router.replace('/(tabs)');
       } else {
@@ -157,7 +159,7 @@ export default function LoginScreen() {
         return;
       }
 
-      Alert.alert("Success", "OTP sent again. Please check your email.");
+      showAlert("Success", "OTP sent again. Please check your email.");
     } catch (err) {
       setError("Unable to resend OTP. Please try again.");
     } finally {

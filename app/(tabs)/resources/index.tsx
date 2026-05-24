@@ -131,7 +131,7 @@ export default function ResourcesScreen() {
     <SafeAreaView style={styles.container} edges={['top']}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Find a Space</Text>
+        <Text style={styles.headerTitle}>Find a Resource</Text>
       </View>
 
       {/* Search Bar */}
