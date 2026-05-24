@@ -6,16 +6,16 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '@/hooks/AuthContext';
 import { useAlert } from '@/hooks/AlertContext';
 
-let GoogleSignin: any = null;
-try {
-  GoogleSignin = require('@react-native-google-signin/google-signin').GoogleSignin;
-  // Initialize Google Sign-In with Web Client ID (for getting idToken)
-  GoogleSignin.configure({
-    webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
-  });
-} catch (error) {
-  console.warn("GoogleSignin native module not found. Are you running in Expo Go without a custom dev client?");
-}
+// let GoogleSignin: any = null;
+// try {
+//   GoogleSignin = require('@react-native-google-signin/google-signin').GoogleSignin;
+//   // Initialize Google Sign-In with Web Client ID (for getting idToken)
+//   GoogleSignin.configure({
+//     webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID,
+//   });
+// } catch (error) {
+//   console.warn("GoogleSignin native module not found. Are you running in Expo Go without a custom dev client?");
+// }
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL || (Platform.OS === 'android' ? 'http://10.0.2.2:3000' : 'http://localhost:3000');
 

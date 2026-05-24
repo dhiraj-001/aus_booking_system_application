@@ -4,55 +4,40 @@
     "slug": "aus-booking-system",
     "version": "1.0.0",
     "orientation": "portrait",
-
     "scheme": "ausbooking",
-
     "userInterfaceStyle": "automatic",
-
     "newArchEnabled": true,
-
     "icon": "./assets/images/aus-logo.png",
-
     "splash": {
       "image": "./assets/images/aus-logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-
-    "assetBundlePatterns": ["**/*"],
-
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.aus.bookingsystem",
       "buildNumber": "1"
     },
-
     "android": {
       "package": "com.aus.bookingsystem",
-
       "versionCode": 1,
-
       "edgeToEdgeEnabled": true,
-
       "predictiveBackGestureEnabled": false,
-
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/aus-logo.png",
         "backgroundColor": "#FFFFFF"
       }
     },
-
     "web": {
       "bundler": "metro",
-
       "output": "static",
-
       "favicon": "./assets/images/aus-logo.png"
     },
-
     "plugins": [
       "expo-router",
-
       [
         "expo-splash-screen",
         {
@@ -65,26 +50,24 @@
           }
         }
       ],
-
-      "@react-native-google-signin/google-signin",
-
       "@react-native-community/datetimepicker"
     ],
-
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
     },
-
     "extra": {
       "projectName": "AUS Booking System",
-
       "theme": {
         "primary": "#6366F1",
         "secondary": "#0F172A",
         "background": "#F8FAFC",
         "card": "#FFFFFF",
         "text": "#111827"
+      },
+      "router": {},
+      "eas": {
+        "projectId": "f1f61aee-7f75-433e-a382-2d685972e13c"
       }
     }
   }

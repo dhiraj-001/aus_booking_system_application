@@ -8,9 +8,18 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "VITE_RAZORPAY_KEY_ID": "rzp_test_SRM6h4Dh1dbik4",
+        "EXPO_PUBLIC_API_URL": "https://aus-booking-system-backend.onrender.com"
+      }
     },
-    "production": {}
+    "production": {
+      "env": {
+        "VITE_RAZORPAY_KEY_ID": "rzp_test_SRM6h4Dh1dbik4",
+        "EXPO_PUBLIC_API_URL": "https://aus-booking-system-backend.onrender.com"
+      }
+    }
   },
   "submit": {
     "production": {}
