@@ -14,10 +14,10 @@
     "icon": "./assets/images/aus-logo.png",
 
     "splash": {
-  "image": "./assets/images/aus-logo.png",
-  "resizeMode": "contain",
-  "backgroundColor": "#EEF2FF"
-},
+      "image": "./assets/images/aus-logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
 
     "assetBundlePatterns": ["**/*"],
 
@@ -54,18 +54,17 @@
       "expo-router",
 
       [
-  "expo-splash-screen",
-  {
-    "image": "./assets/images/aus-logo.png",
-    "imageWidth": 140,
-    "resizeMode": "contain",
-    "backgroundColor": "#EEF2FF",
-
-    "dark": {
-      "backgroundColor": "#0F172A"
-    }
-  }
-],
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/aus-logo.png",
+          "imageWidth": 140,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "backgroundColor": "#ffffff"
+          }
+        }
+      ],
 
       "@react-native-google-signin/google-signin",
 
