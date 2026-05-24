@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingHorizontal: 20,
-    paddingBottom: 40,
+    paddingBottom: 110,
     gap: 16,
   },
   cardContainer: {

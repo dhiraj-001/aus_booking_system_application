@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   View, Text, StyleSheet, ScrollView, TouchableOpacity, 
-  TextInput, ActivityIndicator, Alert, Modal, Platform, KeyboardAvoidingView 
+  TextInput, ActivityIndicator, Alert, Modal, Platform, KeyboardAvoidingView, Appearance, useColorScheme 
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,6 +17,12 @@ const DEPARTMENTS = [
 export default function ProfileScreen() {
   const router = useRouter();
   const { user, setUser } = useAuth();
+  const colorScheme = useColorScheme();
+
+  const toggleTheme = () => {
+    const newTheme = colorScheme === 'dark' ? 'light' : 'dark';
+    Appearance.setColorScheme(newTheme);
+  };
 
   const [isEditing, setIsEditing] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -345,6 +351,17 @@ export default function ProfileScreen() {
               <Text style={styles.changePwdBtnText}>Change Password</Text>
             </TouchableOpacity>
           </View>
+          <View style={styles.separator} />
+          
+          <View style={styles.infoRow}>
+            <View style={{flexDirection: 'row', alignItems: 'center', width: 100}}>
+              <Ionicons name={colorScheme === 'dark' ? "moon-outline" : "sunny-outline"} size={16} color="#64748B" style={{marginRight: 4}} />
+              <Text style={styles.infoLabel}>Theme</Text>
+            </View>
+            <TouchableOpacity style={styles.changePwdBtn} onPress={toggleTheme}>
+              <Text style={styles.changePwdBtnText}>{colorScheme === 'dark' ? 'Dark Mode' : 'Light Mode'}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.sectionCard}>
@@ -394,6 +411,22 @@ export default function ProfileScreen() {
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Clearance</Text>
             <Text style={styles.infoValueBold}>{user.role}</Text>
+          </View>
+        </View>
+
+        {/* HELP & SUPPORT */}
+        <View style={styles.sectionCard}>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="help-buoy-outline" size={20} color="#64748B" />
+            <Text style={styles.sectionTitle}>Help & Support</Text>
+          </View>
+          <View style={styles.infoRow}>
+            <View style={{flexDirection: 'row', alignItems: 'center', flex: 1}}>
+              <Text style={styles.infoLabel}>Contact Us</Text>
+            </View>
+            <TouchableOpacity style={styles.changePwdBtn} onPress={() => router.push('/support')}>
+              <Text style={styles.changePwdBtnText}>View Details</Text>
+            </TouchableOpacity>
           </View>
         </View>
         
@@ -501,7 +534,7 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8FAFC' },
-  scrollContainer: { padding: 16, paddingBottom: 40 },
+  scrollContainer: { padding: 16, paddingBottom: 110 },
   card: {
     backgroundColor: '#FFF',
     borderRadius: 16,

@@ -72,18 +72,13 @@ export default function HomeScreen() {
             <Text style={styles.greeting}>Welcome back,</Text>
             <Text style={styles.userName}>{getFirstName(user?.name)} 👋</Text>
           </View>
-          <TouchableOpacity style={styles.profileBtn} onPress={() => handleQuickLink('/profile')}>
-            <Image 
-              source={{ uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&auto=format&fit=crop' }} 
-              style={styles.avatar} 
-            />
-          </TouchableOpacity>
+          
         </View>
 
         {/* Hero Card */}
         <TouchableOpacity style={styles.heroCard} activeOpacity={0.9} onPress={() => handleQuickLink('/resources')}>
           <Image 
-            source={{ uri: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&auto=format&fit=crop' }} 
+            source={{ uri: featuredResources.length > 0 ? getImageUrl(featuredResources[0].image) : "" }} 
             style={styles.heroImage} 
           />
           <View style={styles.heroOverlay}>
@@ -118,14 +113,14 @@ export default function HomeScreen() {
             title="Guidelines" 
             color="#FCE7F3" 
             iconColor="#DB2777" 
-            onPress={() => console.log('Guidelines pressed')} 
+            onPress={() => handleQuickLink('/guidelines')} 
           />
           <QuickLinkCard 
             icon="help-circle" 
             title="Support" 
             color="#FEF3C7" 
             iconColor="#D97706" 
-            onPress={() => console.log('Support pressed')} 
+            onPress={() => handleQuickLink('/support')} 
           />
         </View>
 
@@ -202,7 +197,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8FAFC',
   },
   scrollContent: {
-    paddingBottom: 40,
+    paddingBottom: 110,
   },
   loadingContainer: {
     height: 140,

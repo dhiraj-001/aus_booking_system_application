@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Alert, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -175,7 +175,7 @@ export default function LoginScreen() {
           
           <View style={styles.headerContainer}>
             <View style={styles.iconContainer}>
-              <Ionicons name={step === 'login' ? "log-in-outline" : "shield-checkmark-outline"} size={40} color="#4F46E5" />
+              <Image source={require('@/assets/images/logo.png')} style={{ width: 60, height: 60, resizeMode: 'contain' }} />
             </View>
             <Text style={styles.title}>{step === 'login' ? 'Welcome Back' : 'Verify Account'}</Text>
             <Text style={styles.subtitle}>
@@ -340,7 +340,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#EEF2FF',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 16,

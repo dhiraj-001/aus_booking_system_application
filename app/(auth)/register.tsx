@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Alert, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -222,6 +222,9 @@ export default function RegisterScreen() {
           </TouchableOpacity>
 
           <View style={styles.headerContainer}>
+            <View style={styles.iconContainer}>
+              <Image source={require('@/assets/images/logo.png')} style={{ width: 60, height: 60, resizeMode: 'contain' }} />
+            </View>
             <Text style={styles.title}>{step === 'form' ? 'Create Account' : 'Verify Account'}</Text>
             <Text style={styles.subtitle}>
               {step === 'form' 
@@ -459,7 +462,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   headerContainer: {
+    alignItems: 'center',
     marginBottom: 24,
+  },
+  iconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
   },
   title: {
     fontSize: 28,
@@ -470,6 +482,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 15,
     color: '#64748B',
+    textAlign: 'center',
   },
   errorBox: {
     flexDirection: 'row',
